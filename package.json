@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "expresso": "^0.9.1"
+    "mocha": "^2.3.4"
   },
   "scripts": {
-    "test": "expresso test/*"
+    "test": "mocha"
   }
 }
