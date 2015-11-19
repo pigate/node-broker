@@ -12,10 +12,6 @@ exports['test String#length'] = function(){
 */
 
 module.exports = {
-  'test String#length': function(){
-    assert.equal(6, 'foobar'.length);
-  },
-
   'test Broker#init': function(){
     assert.equal(0, broker.activeCount());
   },
@@ -30,9 +26,9 @@ module.exports = {
     var ct = broker.activeCount();
     broker.newBuffer();
     ct++;
-    broker.newBuffer();
+    var id = broker.newBuffer();
     ct++;
-    broker.removeOne();
+    broker.removeOne(id);
     ct--;
     assert.equal(ct, broker.activeCount());
   },

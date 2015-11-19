@@ -1,7 +1,7 @@
 /*
 
-require('./cbuffer.js');
-var cb = new CBuffer(1);
+var gen = require('./cbuffer.js');
+var cb = gen(1);
 
 */
 
@@ -11,7 +11,7 @@ function GENCBuffer(size){
   return new CBuffer(size);
 }
 
-
+//min_size = 2
 function CBuffer(size){
     if (size < 2)
       throw new Error("Need size greater than zero");
@@ -33,19 +33,19 @@ CBuffer.prototype.toString = function(){
 }
 
 CBuffer.prototype.read = function(){
-  console.log("== read");
+  //console.log("== read");
   if (this.ct == 0)
     throw new Error("buffer empty");
   var res = this.array[this.r];
-  console.log("current state when reading at", this.r, this.array, res);
+  //console.log("current state when reading at", this.r, this.array, res);
   this.r = (this.r + 1)%this._size;
   this.ct--;
   return res;
 };
 
 CBuffer.prototype.write = function(obj){
-  console.log("== write");
-  console.log("before", this.r, this.w, this.ct, this._size);
+  //console.log("== write");
+  //console.log("before", this.r, this.w, this.ct, this._size);
   if (this.ct == this._size){
     this.r = (this.r + 1)%this._size;
   } else {
@@ -53,10 +53,9 @@ CBuffer.prototype.write = function(obj){
   }
   this.array[this.w] = obj; 
   this.w = (this.w + 1)%this._size; 
-  console.log("after", this.r, this.w, this.ct, this._size);
+  //console.log("after", this.r, this.w, this.ct, this._size);
 }
 
-/*
 CBuffer.prototype.lock = function(){
   if (this.lock == 1)
     throw new Error("already locked!");
@@ -68,6 +67,5 @@ CBuffer.prototype.unlock = function(){
     throw new Error("already unlocked!");
   this.lock = 0;
 }
-*/
 
 module.exports = GENCBuffer;
