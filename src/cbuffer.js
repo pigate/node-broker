@@ -21,9 +21,10 @@ function CBuffer(size){
     for(var i = 0; i < size; i++){
       this.array.push(null);
     }
-    this.start = 0; 
-    this.end = 0;
+    this.r = 0; 
+    this.w = 0;
     this.lock = 0;
+    this.ct = 0;
     ct++;
 }
 
@@ -32,21 +33,27 @@ CBuffer.prototype.toString = function(){
 }
 
 CBuffer.prototype.read = function(){
-    if (this.start == this.end)
-      throw new Error("buffer empty");
-    var res = this.array[this.start];
-    this.start = (this.start + 1)%this._size;
-    console.log(this.array);
-    return res;
+  console.log("== read");
+  if (this.ct == 0)
+    throw new Error("buffer empty");
+  var res = this.array[this.r];
+  console.log("current state when reading at", this.r, this.array, res);
+  this.r = (this.r + 1)%this._size;
+  this.ct--;
+  return res;
 };
 
 CBuffer.prototype.write = function(obj){
-    this.array[this.end] = obj; 
-    this.end = (this.end + 1)%this._size; 
-    if (this.end == this.start){
-      this.start = (this.start + 1)%this._size;
-    }
-    console.log("hi", this.end, this.start, this._size);
+  console.log("== write");
+  console.log("before", this.r, this.w, this.ct, this._size);
+  if (this.ct == this._size){
+    this.r = (this.r + 1)%this._size;
+  } else {
+    this.ct++;
+  }
+  this.array[this.w] = obj; 
+  this.w = (this.w + 1)%this._size; 
+  console.log("after", this.r, this.w, this.ct, this._size);
 }
 
 /*
