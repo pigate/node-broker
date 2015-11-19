@@ -13,7 +13,7 @@ function GENCBuffer(size){
 
 
 function CBuffer(size){
-    if (size <= 0)
+    if (size < 2)
       throw new Error("Need size greater than zero");
     this._size = size;
     this.init = true;
@@ -31,23 +31,25 @@ CBuffer.prototype.toString = function(){
   return "CBuffer";
 }
 
-/*
 CBuffer.prototype.read = function(){
-  if (this.start == this.end)
-    throw new Error("buffer empty");
-  var res = array[start];
-  this.start = (this.start + 1)%this._size;
-  return res;
-}
+    if (this.start == this.end)
+      throw new Error("buffer empty");
+    var res = this.array[this.start];
+    this.start = (this.start + 1)%this._size;
+    console.log(this.array);
+    return res;
+};
 
 CBuffer.prototype.write = function(obj){
-  if ((this.end + 1) % this._size) == this.start){
-    this.start = (this.start + 1)%this._size;
-  }
-  this.end = (this.end + 1)%this._size; 
-  this.array[end] = obj; 
+    this.array[this.end] = obj; 
+    this.end = (this.end + 1)%this._size; 
+    if (this.end == this.start){
+      this.start = (this.start + 1)%this._size;
+    }
+    console.log("hi", this.end, this.start, this._size);
 }
 
+/*
 CBuffer.prototype.lock = function(){
   if (this.lock == 1)
     throw new Error("already locked!");
