@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "espresso": "^1.4.3"
+  },
+  "scripts": { "test": "expresso test/*" },
+}
